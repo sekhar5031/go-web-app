@@ -63,11 +63,15 @@ This application leverages Go's capabilities for building robust web services an
    ```
 
 
-**USAGE**
+**USAGE**  
+
+
 The application should be accessible at http://localhost:8080 in your web browser. Depending on the functionalities of your application, this might be a placeholder for further instructions or specific API endpoints
 
 
 **CONTRIBUTING**
+
+
 Contributions are welcome! Please follow these general guidelines:
 
 * Fork the repository on GitHub.
