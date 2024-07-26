@@ -1,0 +1,27 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Dependency directories
+vendor/
+
+# Go modules cache
+go.sum
+
+# IDE and Editor Configurations
+.vscode/
+*.code-workspace
+.idea/
+*.iml
+
+# Environment files
+.env
+
+# Log files
+*.log
+
+# Docker
+*.dockerignore

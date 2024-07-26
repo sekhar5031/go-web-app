@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Go Web App</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="jumbotron mt-5">
+            <h1 class="display-4">Hello, Go 1.20!</h1>
+            <p class="lead">This is a simple web app using Go and Bootstrap.</p>
+            <hr class="my-4">
+
+            <!-- Form -->
+            <form id="userForm" action="/submit" method="POST">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+
+            <!-- Display Submitted Data -->
+            <div id="userData" class="mt-4">
+                <h3>Submitted Data:</h3>
+                <p><strong>Name:</strong> <span id="displayName"></span></p>
+                <p><strong>Email:</strong> <span id="displayEmail"></span></p>
+            </div>
+
+            <!-- Display User List -->
+            <div id="userList" class="mt-4">
+                <h3>User List:</h3>
+                <ul id="userListItems" class="list-group"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('userForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+
+            fetch('/submit', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('displayName').innerText = formData.get('name');
+                document.getElementById('displayEmail').innerText = formData.get('email');
+                alert(data);
+                loadUsers(); // Refresh the user list after submission
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        function loadUsers() {
+            fetch('/users')
+                .then(response => response.json())
+                .then(users => {
+                    const userList = document.getElementById('userListItems');
+                    userList.innerHTML = '';
+                    users.forEach(user => {
+                        const listItem = document.createElement('li');
+                        listItem.className = 'list-group-item';
+                        listItem.innerText = `ID: ${user.id}, Name: ${user.name}, Email: ${user.email}`;
+                        userList.appendChild(listItem);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Load users on page load
+        loadUsers();
+    </script>
+</body>
+</html>
